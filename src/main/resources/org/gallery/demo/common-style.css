@@ -1,0 +1,34 @@
+.pane {
+    -fx-background-color:#377369;
+}
+.label {
+    -fx-font-size: 11pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: white;
+    -fx-opacity: 0.8;
+    -fx-font-weight: bold;
+}
+
+.customLabel1 {
+    -fx-font-size: 10pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: WHITE;
+    -fx-opacity: 0.8;
+}
+
+.customLabel2 {
+    -fx-font-size: 10pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: BLACK;
+    -fx-opacity: 0.8;
+}
+
+.textFieldError {
+  -fx-text-box-border: RED ;
+  -fx-focus-color: RED ;
+}
+
+.textFieldSuccess {
+  -fx-text-box-border: green ;
+  -fx-focus-color: green ;
+}
