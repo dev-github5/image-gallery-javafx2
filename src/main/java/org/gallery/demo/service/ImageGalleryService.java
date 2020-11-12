@@ -25,9 +25,7 @@ public class ImageGalleryService {
             if (drives != null && !drives.isEmpty()) {
                 for (String drive : drives) {
                     String[] detail = drive.split(":");
-                    DriveDetailMO driveDetailMO = new DriveDetailMO();
-                    driveDetailMO.setMountName(detail[0]);
-                    driveDetailMO.setMountPoint(detail[1]);
+                    DriveDetailMO driveDetailMO = new DriveDetailMO(detail[0],detail[1],1);
                     driveDetailMOS.add(driveDetailMO);
                 }
             }
@@ -52,5 +50,19 @@ public class ImageGalleryService {
         imageGalleryDao.removeGalleryDetail(id);
     }
 
+    public void saveDriveDetail(DriveDetailMO driveDetailMO){
+        imageGalleryDao.saveDriveDetail(driveDetailMO);
+    }
 
+    public List<DriveDetailMO> getAllMountedDriveDetails(){
+        return imageGalleryDao.getAllMountedDriveDetails();
+    }
+
+    public boolean removeDriveDetails(){
+        return imageGalleryDao.removeDriveDetails();
+    }
+
+    public void createDriveDetailTable() {
+        imageGalleryDao.createDriveDetailTable();
+    }
 }

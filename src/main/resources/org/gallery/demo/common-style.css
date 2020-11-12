@@ -32,3 +32,7 @@
   -fx-text-box-border: green ;
   -fx-focus-color: green ;
 }
+
+.imageView{
+  -fx-text-box-border: RED ;
+}

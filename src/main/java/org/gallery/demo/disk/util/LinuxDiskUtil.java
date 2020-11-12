@@ -15,7 +15,7 @@ public class LinuxDiskUtil {
         for (String mountPoint : readMountEntries()) {
             String[] mount = mountPoint.split("\t");
             if (mount[1].contains(MEDIA_FS)) {
-                System.err.println("MountPoint" + mount[1]);
+                //System.err.println("MountPoint" + mount[1]);
                 driveRootPaths.add(mount[0]+":"+mount[1]);
             }
         }

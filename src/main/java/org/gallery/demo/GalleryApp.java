@@ -5,15 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.DirectoryFileFilter;
-import org.apache.commons.io.filefilter.RegexFileFilter;
-import org.gallery.demo.disk.util.LinuxDiskUtil;
 
-import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
-import java.util.Collection;
 
 public class GalleryApp extends Application {
 
