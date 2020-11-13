@@ -13,6 +13,8 @@ public class MountedDrivesInfoUpdateTaskService extends ScheduledService {
 
     private ImageGalleryService imageGalleryService;
 
+    private boolean isMountedDriveFound;
+
     public MountedDrivesInfoUpdateTaskService(ImageGalleryService imageGalleryService) {
         this.imageGalleryService = imageGalleryService;
     }
@@ -26,16 +28,31 @@ public class MountedDrivesInfoUpdateTaskService extends ScheduledService {
                 setPeriod(Duration.minutes(1));
                 System.err.println("Reading Mounted Drives Info ... " + new Date());
                 List<DriveDetailMO> mountedDrives = imageGalleryService.getDriveDetails();
+                flushPreviousMountedDriveDetails();
 
                 if (!mountedDrives.isEmpty()) {
-                    imageGalleryService.removeDriveDetails();//Remove previous data.
                     for (DriveDetailMO driveDetailMO : mountedDrives) {
                         imageGalleryService.saveDriveDetail(driveDetailMO);
                     }
+
+                    isMountedDriveFound = true;
+                } else {
+                    isMountedDriveFound = false;
                 }
 
                 return null;
             }
         };
+    }
+
+    private void flushPreviousMountedDriveDetails() {
+        List<DriveDetailMO> mountedDrives = imageGalleryService.getAllMountedDriveDetails();
+        if (mountedDrives != null && mountedDrives.size() > 0) {
+            imageGalleryService.removeDriveDetails();//Remove previous data.
+        }
+    }
+
+    public boolean isAnyDriveMounted() {
+        return isMountedDriveFound;
     }
 }

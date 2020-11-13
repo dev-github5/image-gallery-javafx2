@@ -102,9 +102,13 @@ public class GalleryAppController implements Initializable {
         mountedDrivesInfoUpdateTaskService.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent event) {
-                System.err.println("Mounted drives info saved successfully at " + (new Date()));
-                if (!loadImagesTaskService.isRunning()) {
-                    loadImagesTaskService.start();
+                MountedDrivesInfoUpdateTaskService mountedService = (MountedDrivesInfoUpdateTaskService) event.getSource();
+                if (mountedService.isAnyDriveMounted()) {
+                    System.err.println("Mounted drives info saved successfully at " + (new Date()));
+                    if (!loadImagesTaskService.isRunning())
+                        loadImagesTaskService.start();
+                }else{
+                    System.err.println("No mounted drives found at " + (new Date()));
                 }
             }
         });
@@ -112,10 +116,13 @@ public class GalleryAppController implements Initializable {
         loadImagesTaskService.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent event) {
-                System.err.println("Image loaded successfully at " + (new Date()));
                 LoadImagesTaskService taskService = (LoadImagesTaskService) event.getSource();
-                allImages.clear();
-                allImages.addAll(taskService.getImageFileList());
+                List<File> files = taskService.getImageFileList();
+                if (files.size() > 0) {
+                    System.err.println("Images loaded successfully at " + (new Date()));
+                    allImages.clear();
+                    allImages.addAll(files);
+                }
             }
         });
 
@@ -165,9 +172,9 @@ public class GalleryAppController implements Initializable {
                 Button removeGallery = new Button("दीर्घा हटाए");
                 removeGallery.getStyleClass().add("customLabel2");
                 removeGallery.prefHeight(35);
-                setActionRemoveGallery(removeGallery,galleryDetailMO.getId());
+                setActionRemoveGallery(removeGallery, galleryDetailMO.getId());
 
-                vBox.getChildren().addAll(name, tags, addPhotos,removeGallery);
+                vBox.getChildren().addAll(name, tags, addPhotos, removeGallery);
 
                 galleryDetailPane.getChildren().add(vBox);
 
@@ -310,7 +317,7 @@ public class GalleryAppController implements Initializable {
         try {
             if (!isInitialized) {
                 totalImages = allImages.size();
-                double maxScreenWidth = CommonUtil.getScreenDimension().getWidth()-100;
+                double maxScreenWidth = CommonUtil.getScreenDimension().getWidth() - 100;
                 numberOfCols = (int) maxScreenWidth / 100;
 
                 //Initialize GridPane
